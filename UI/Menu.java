@@ -1,92 +1,109 @@
 package UI;
 import service.*;
-import java.util.Scanner;
-
 import model.Task;
+import utils.*;
+import java.util.Scanner;
+import exceptions.TaskNotFoundException;
 
 public class Menu {
-    TaskSystem tSystem = new TaskSystem();
+    TaskSystem taskSystem = new TaskSystem();
+    SafeInput inputService = new SafeInput();
 
     public void showTasks() {
-        int i = 1;
-        for (Task task : tSystem.TaskList) {
+        System.out.println("\n--TASK LIST--\n");
+        for (Task task : taskSystem.taskList) {
             
             if (task.concluded) {
-                System.out.println(i + "ID: " + task.id + " " + task.name + "(X)");
+                System.out.println("(X)" + task.getName() + "\nID: " + task.id );
             }
             else {
-                System.out.println(i + "ID: " +task.id + " " + task.name + "( )");
+                System.out.println("( )" + task.getName() + "\nID: " + task.id);
             }
-            i++;
         }
     }
 
-    public void start() {
-        
+    public void start() {  
+
+        //Variables
         Scanner scan = new Scanner(System.in);
-        int opt;
+        int option; //Controls the switch.
+        String choice; //Control all Do While inside the switch.
+        int id; //Store received id
+
         System.out.println("------- Task Manager -------\n");
 
         do {
-            System.out.println("Choose an option: \n1 - Add new task \n2 - Mark task as completed \n3 - Delete task \n4 - Clear list \n5 - Exit");
-            opt = scan.nextInt();
-            scan.nextLine();
+            System.out.println("\nChoose an option: \n1 - Add new task \n2 - Mark task as completed \n3 - Delete task \n4 - Clear list \n5 - Exit");
+            option = inputService.readInt();
 
-            String c; //Variável pra controlar o Do While dentro do switch.
-            int index;
-
-            if (opt > 5 || opt < 1) {
+            if (option > 5 || option < 1) {
                 System.out.println("Please choose a valid option.");
             }
 
-            switch (opt) {
+            switch (option) {
                 case 1:
                     do {
                         System.out.println("New task name: \n");
                         String name = scan.nextLine();
-                        tSystem.addTask(name);
-                        System.out.println("Do you want to add another task?: \nYes(y) No(n)\n");
-                        c = scan.nextLine();
-                    } while (c.contains("y") || c.contains("Y"));
+
+                        try {
+                            taskSystem.addTask(name);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        
+                        System.out.println("\nDo you want to add another task?: \nYes(y) No(n)\n");
+                        choice = scan.nextLine();
+                    } while (choice.contains("y") || choice.contains("Y"));
                     showTasks(); 
                     break;
 
                 case 2:
                     do {
-                        System.out.println("Task number to mark as completed: \n");
-                        index = scan.nextInt();
-                        scan.nextLine();
-                        tSystem.checkTask(index);
-                        System.out.println("Do you want to mark another task as completed?: \nYes(y) No(n)");
-                        c = scan.nextLine();
+                        System.out.println("Type the id of the task you want to mark as completed: \n");
+                        id = inputService.readInt();
+
+                        try {
+                            taskSystem.checkTask(id);
+                        } catch (TaskNotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
                         
-                    } while (c.contains("y") || c.contains("Y"));
+                        System.out.println("\nDo you want to mark another task as completed?: \nYes(y) No(n)");
+                        choice = scan.nextLine();
+                        
+                    } while (choice.contains("y") || choice.contains("Y"));
                     showTasks(); 
                     break;
                 
                 case 3:
                     do {
-                        System.out.println("Type the ID of the task you want to remove: ");
-                        int id = scan.nextInt();
-                        tSystem.removeTask(id);
-                        scan.nextLine();
+                        System.out.println("\nType the ID of the task you want to remove: ");
+                        id = inputService.readInt();
+    
+                        try {
+                            taskSystem.removeTask(id);
+                            System.out.println("Task removed!");
+                        } catch (TaskNotFoundException e) {
+                            System.out.println(e.getMessage());
+                        }
                         
-                        showTasks(); 
-                        System.out.println("Do you want to remove another task?: \nYes(y) No(n)");
-                        c = scan.nextLine();
-
-                    } while (c.contains("y") || c.contains("Y"));
-                    
+                        System.out.println("\nDo you want to remove another task?: \nYes(y) No(n)");
+                        choice = scan.nextLine();
+        
+                    } while (choice.contains("y") || choice.contains("Y"));
+                    showTasks();
                     break;
                 
                 case  4:
-                    tSystem.resetList();
-                    System.out.println("List reseted.");
+                    taskSystem.resetList();
+                    System.out.println("List reset.\n");
                 
                 default:
                     break;
             }
-        } while (opt != 5);
+        } while (option != 5);
         scan.close();
+        inputService.close();
     }
 }

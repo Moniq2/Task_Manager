@@ -1,37 +1,41 @@
 package service;
 import model.Task;
-import java.util.Scanner;
+import exceptions.*;
 import java.util.ArrayList;
 
 public class TaskSystem {
-    public ArrayList<Task> TaskList = new ArrayList<>();
+    public ArrayList<Task> taskList = new ArrayList<>();
     
-    int id = 100;
-
-    public void addTask(String taskName) {
+    int id = 1;
+    public void addTask(String taskName) throws IllegalArgumentException{
         Task task = new Task(taskName);
         task.id = id++;
-        TaskList.add(task);
+        taskList.add(task);
     }
 
-    public void removeTask(int id) {
-        Task aux = null;
-        for (Task task : TaskList) {
+    public Task findTaskByID(int id) throws TaskNotFoundException {
+        for (Task task : taskList) {
             if (task.id == id) {
-                aux = task;
+                return task;
             }
         }
-        if (aux == null) {
-            return;
+        throw new TaskNotFoundException(id);
+    }
+        
+    public void removeTask(int id) throws TaskNotFoundException {
+        if (taskList.isEmpty()) {
+            System.out.println("It is not possible to remove any task as the list is empty!");
         }
-        TaskList.remove(aux);
-    } 
 
-    public void checkTask(int n){
-        TaskList.get(n - 1).concluded = true;
+        Task task = findTaskByID(id);
+        taskList.remove(task);
+    }
+
+    public void checkTask(int id) throws TaskNotFoundException {
+        findTaskByID(id).concluded = true;
     }
 
     public void resetList(){
-        TaskList.clear();
+        taskList.clear();
     }
 }

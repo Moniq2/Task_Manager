@@ -1,4 +1,3 @@
-
 import UI.Menu;
 
 public class main {
