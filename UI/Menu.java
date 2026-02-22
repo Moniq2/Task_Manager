@@ -97,7 +97,7 @@ public class Menu {
                 
                 case  4:
                     taskSystem.resetList();
-                    System.out.println("List reset.\n");
+                    System.out.println("List reseted.\n");
                 
                 default:
                     break;
