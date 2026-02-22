@@ -2,20 +2,33 @@ package service;
 import model.Task;
 import exceptions.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskSystem {
-    public ArrayList<Task> taskList = new ArrayList<>();
-    
-    int id = 1;
+    private ArrayList<Task> taskList = new ArrayList<>();
+    private int id = 1;
+
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
+    public boolean isConcluded(Task task){
+        if (task.getConcluded()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void addTask(String taskName) throws IllegalArgumentException{
         Task task = new Task(taskName);
-        task.id = id++;
+        task.setId(id++);
         taskList.add(task);
     }
 
     public Task findTaskByID(int id) throws TaskNotFoundException {
         for (Task task : taskList) {
-            if (task.id == id) {
+            if (task.getId() == id) {
                 return task;
             }
         }
@@ -32,7 +45,7 @@ public class TaskSystem {
     }
 
     public void checkTask(int id) throws TaskNotFoundException {
-        findTaskByID(id).concluded = true;
+        findTaskByID(id).setConcluded(true);
     }
 
     public void resetList(){

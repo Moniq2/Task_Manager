@@ -11,15 +11,20 @@ public class Menu {
 
     public void showTasks() {
         System.out.println("\n--TASK LIST--\n");
-        for (Task task : taskSystem.taskList) {
+        for (Task task : taskSystem.getTaskList()) {
             
-            if (task.concluded) {
-                System.out.println("(X)" + task.getName() + "\nID: " + task.id );
+            if (taskSystem.isConcluded(task)) {
+                System.out.println("(X)" + task.getName() + "\nID: " + task.getId());
             }
             else {
-                System.out.println("( )" + task.getName() + "\nID: " + task.id);
+                System.out.println("( )" + task.getName() + "\nID: " + task.getId());
             }
         }
+    }
+
+    private boolean askContinue(Scanner scan) {
+        String choice = scan.nextLine();
+        return choice.contains("y") || choice.contains("Y");
     }
 
     public void start() {  
@@ -27,7 +32,6 @@ public class Menu {
         //Variables
         Scanner scan = new Scanner(System.in);
         int option; //Controls the switch.
-        String choice; //Control all Do While inside the switch.
         int id; //Store received id
 
         System.out.println("------- Task Manager -------\n");
@@ -53,8 +57,7 @@ public class Menu {
                         }
                         
                         System.out.println("\nDo you want to add another task?: \nYes(y) No(n)\n");
-                        choice = scan.nextLine();
-                    } while (choice.contains("y") || choice.contains("Y"));
+                    } while (askContinue(scan));
                     showTasks(); 
                     break;
 
@@ -70,9 +73,7 @@ public class Menu {
                         }
                         
                         System.out.println("\nDo you want to mark another task as completed?: \nYes(y) No(n)");
-                        choice = scan.nextLine();
-                        
-                    } while (choice.contains("y") || choice.contains("Y"));
+                    } while (askContinue(scan));
                     showTasks(); 
                     break;
                 
@@ -89,9 +90,7 @@ public class Menu {
                         }
                         
                         System.out.println("\nDo you want to remove another task?: \nYes(y) No(n)");
-                        choice = scan.nextLine();
-        
-                    } while (choice.contains("y") || choice.contains("Y"));
+                    } while (askContinue(scan));
                     showTasks();
                     break;
                 
