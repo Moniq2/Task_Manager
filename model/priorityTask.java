@@ -1,9 +1,9 @@
 package model;
 
-public class priorityTask extends Task{
+public class PriorityTask extends Task{
     private Boolean priority = true;
 
-    public priorityTask(String name){
+    public PriorityTask(String name){
         super(name);
     }
 

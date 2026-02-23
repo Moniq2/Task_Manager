@@ -1,7 +1,7 @@
 package UI;
 import controller.TaskSystem;
 import model.Task;
-import model.priorityTask;
+import model.PriorityTask;
 import utils.SafeInput;
 import java.util.Scanner;
 import exceptions.TaskNotFoundException;
@@ -21,7 +21,7 @@ public class Menu {
                 System.out.println("( )" + task.getName() + " ID: " + task.getId());
             }
 
-            if (task instanceof priorityTask) {
+            if (task instanceof PriorityTask) {
                 System.out.println("[PRIORITY!]");
             }
         }
