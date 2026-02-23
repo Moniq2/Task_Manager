@@ -15,7 +15,7 @@ public class TaskSystem {
     public void addTask(String taskName, Boolean priority) throws IllegalArgumentException{ //Adds new task
         Task task;
         if (priority) {
-            task = new priorityTask(taskName);
+            task = new PriorityTask(taskName);
         }
         else {
             task = new Task(taskName);
