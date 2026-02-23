@@ -1,0 +1,11 @@
+Olá!
+Eu fiz o código todo em inglês mas posso tirar quaisquer dúvidas.
+
+Separei os pacotes de uma forma diferente da do slide:
+controller - Contém a toda a lógica de manipulação das tarefas.
+exceptions - Exceções personalizadas.
+model - Entidades.
+UI - Toda a interação com o usuário e fluxo do menu. fiquei em dúvida se deveria colocar no Main mas resolvi fazer assim.
+utils - Algumas funções úteis
+
+

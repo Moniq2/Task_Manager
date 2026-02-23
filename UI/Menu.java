@@ -1,7 +1,8 @@
 package UI;
-import service.*;
+import controller.TaskSystem;
 import model.Task;
-import utils.*;
+import model.priorityTask;
+import utils.SafeInput;
 import java.util.Scanner;
 import exceptions.TaskNotFoundException;
 
@@ -17,7 +18,11 @@ public class Menu {
                 System.out.println("(X)" + task.getName() + "\nID: " + task.getId());
             }
             else {
-                System.out.println("( )" + task.getName() + "\nID: " + task.getId());
+                System.out.println("( )" + task.getName() + " ID: " + task.getId());
+            }
+
+            if (task instanceof priorityTask) {
+                System.out.println("[PRIORITY!]\n");
             }
         }
     }
@@ -34,10 +39,10 @@ public class Menu {
         int option; //Controls the switch.
         int id; //Store received id
 
-        System.out.println("------- Task Manager -------\n");
+        System.out.println("------- Task Manager -------");
 
         do {
-            System.out.println("\nChoose an option: \n1 - Add new task \n2 - Mark task as completed \n3 - Delete task \n4 - Clear list \n5 - Exit");
+            System.out.println("\n1 - Add new task \n2 - Mark task as completed \n3 - Delete task \n4 - Clear list \n5 - Exit\nChoose an option: ");
             option = inputService.readInt();
 
             if (option > 5 || option < 1) {
@@ -47,16 +52,23 @@ public class Menu {
             switch (option) {
                 case 1:
                     do {
-                        System.out.println("New task name: \n");
+                        System.out.println("New task name: ");
                         String name = scan.nextLine();
 
+                        System.out.println("Mark as high priority? (y/N)");
+                        String opt = scan.nextLine();
+                        Boolean priority = false;
+                        if (opt.toLowerCase().contains("y")) {
+                            priority = true;
+                        } 
+                      
                         try {
-                            taskSystem.addTask(name);
+                            taskSystem.addTask(name, priority);
                         } catch (IllegalArgumentException e) {
                             System.out.println(e.getMessage());
                         }
                         
-                        System.out.println("\nDo you want to add another task?: \nYes(y) No(n)\n");
+                        System.out.println("Do you want to add another task?: \nYes(y) No(n)\n");
                     } while (askContinue(scan));
                     showTasks(); 
                     break;

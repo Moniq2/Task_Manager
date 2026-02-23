@@ -3,6 +3,7 @@ package model;
 public class Task {
     private String name;
     private Boolean concluded = false;
+    private Boolean priority = true;
     private int id;
 
     public String getName(){
@@ -17,6 +18,10 @@ public class Task {
         return concluded;
     }
 
+    public Boolean getPriority() {
+        return priority;
+    }
+    
     public void setId(int id){
         this.id = id;
     }

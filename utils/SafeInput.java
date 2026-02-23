@@ -10,7 +10,7 @@ public class SafeInput {
         this.scan = new Scanner(System.in);
     }
     
-    public int readInt() {
+    public int readInt() { //Read a int safely.
         while (true) {
             try {
                 int value = scan.nextInt();
