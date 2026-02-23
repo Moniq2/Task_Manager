@@ -22,7 +22,7 @@ public class Menu {
             }
 
             if (task instanceof priorityTask) {
-                System.out.println("[PRIORITY!]\n");
+                System.out.println("[PRIORITY!]");
             }
         }
     }
